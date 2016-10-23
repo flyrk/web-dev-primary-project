@@ -1,0 +1,74 @@
+body, h1, p, div {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #798884;
+}
+#nav {
+    position: relative;
+    width: 250px;
+    height: 450px;
+    margin: 0 auto;
+}
+.navbar {
+    border: 2px solid white;
+    box-shadow: 2px 2px 2px 2px;
+    width: 200px;
+    height: 400px;
+    position: absolute;
+    top: 30%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    transition: 1s;
+    transform-origin: bottom;
+}
+#bar1 {
+    background-color: #90d029;
+}
+#bar2 {
+    background-color: #1db0a7;
+}
+#bar3 {
+    background-color: #9f48a8;
+}
+#bar4 {
+    background-color: #d5c823;
+}
+#bar5 {
+    background-color: #9e2f17;
+}
+#bar6 {
+    background-color: #d06029;
+}
+#bar7 {
+    background-color: #295cd0;
+}
+#bar8 {
+    background-color: #d029c4;
+}
+#bar9 {
+    background-color: #3bd029;
+}
+#bar10 {
+    background-color: #d0293d;
+}
+#bar11 {
+    background-color: #296bd0;
+}
+#bar12 {
+    background-color: #262a1f;
+    position: relative;
+}
+#bar12 > text {
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    margin: auto;
+    padding: 20px;
+    font-size: 120px;
+    line-height: 120px;
+    color: white;
+}
