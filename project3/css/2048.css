@@ -1,0 +1,71 @@
+body, h1, p, div {
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    width: 500px;
+}
+
+header h1 {
+    font-family: inherit;
+    font-size: 60px;
+    font-weight: bold;
+}
+
+header #newGameButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: rgb(214, 108, 21);
+    color: white;
+    font-family: monospace;
+    font-size: 24px;
+    width: 150px;
+    height: 30px;
+    text-align: center;
+    text-decoration: none;
+}
+header #newGameButton:hover {
+    background-color: rgb(213, 155, 28);
+}
+
+header #score {
+    font-family: sans-serif;
+    font-size: 20px;
+    margin: 20px auto;
+}
+
+#grid-container {
+    border-radius: 10px;
+    background-color: rgb(101, 111, 108);
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#grid-container .grid-cell {
+    width: 100px;
+    height: 100px;
+    border-radius: 6px;
+    background-color: rgba(209, 194, 203, 0.73) ;
+    position: absolute;
+}
+
+.number-cell {
+    position: absolute;
+    border-radius: 6px;
+    width: 100px;
+    height: 100px;
+    font-family: arial;
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 100px;
+    text-align: center;
+}
