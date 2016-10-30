@@ -1,6 +1,6 @@
 var board = [];
 var score = 0;
-var hasConflicted = [];
+var hasConflicted = []; //判断该单位格是否已经发生碰撞
 $(document).ready(function () {
     newGame();
 });
@@ -28,7 +28,8 @@ function init() {
         for (var j = 0; j < 4; j++)
             board[i][j] = 0;
     }
-    updateBoardView();
+    updateBoardView(); //更新视图
+    //更新分数
     score = 0;
     updateScore(score);
 }
@@ -93,7 +94,7 @@ function generateOneNumber() {
     showNumberAnimation(randX, randY, randNum);
     return true;
 }
-
+//Key Event
 $(document).keydown(function(event) {
     switch(event.keyCode) {
         case 37: //Left
@@ -132,6 +133,7 @@ function isGameOver() {
 function gameOver() {
 
 }
+//Move Part
 function moveLeft() {
     if (!canMoveLeft(board))
         return false;
