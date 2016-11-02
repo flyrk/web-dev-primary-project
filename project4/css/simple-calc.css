@@ -1,0 +1,85 @@
+/*********claer All*********/
+body, h1, div, p, input {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(66, 62, 58);
+}
+
+#cal-container {
+    width: 620px;
+    height: 720px;
+    margin: 30px auto;
+    border-radius: 20px;
+    background-color: rgb(46, 146, 179);
+    position: relative;
+}
+
+#view-screen {
+    display: block;
+    width: 580px;
+    height: 200px;
+    padding: 20px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    border-radius: 20px;
+    background-color: rgb(129, 143, 142);
+    text-align: right;
+    font-size: 60px;
+    font-weight: bold;
+    font-family: fantasy;
+}
+
+.buttons {
+    position: absolute;
+    color: black;
+    background-color: rgb(32, 222, 176);
+    font-size: 50px;
+    line-height: 100px;
+    font-family: monospace;
+    border-radius: 10px;
+    box-shadow: inset 0px 1px 0px #7fd2f1, 0px 6px 0px #156785;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    text-decoration: none;
+
+}
+
+.buttons::before {
+    background-color:#072239;
+	content:"";
+	display:block;
+	position:absolute;
+	width:100%;
+	height:100%;
+	padding-left:2px;
+	padding-right:2px;
+	padding-bottom:4px;
+	left:-2px;
+	top:5px;
+	z-index:-1;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	-o-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0px 1px 0px #fff;
+	-moz-box-shadow: 0px 1px 0px #fff;
+	-o-box-shadow: 0px 1px 0px #fff;
+	box-shadow: 0px 1px 0px #fff;
+}
+
+.buttons:active {
+    color:rgb(68, 66, 64);
+	text-shadow: 0px 1px 1px rgba(255,255,255,0.3);
+	background:rgb(31, 193, 222);
+	-webkit-box-shadow: inset 0px 1px 0px #7fd2f1, inset 0px -1px 0px #156785;
+	-moz-box-shadow: inset 0px 1px 0px #7fd2f1, inset 0px -1px 0px #156785;
+	-o-box-shadow: inset 0px 1px 0px #7fd2f1, inset 0px -1px 0px #156785;
+	box-shadow: inset 0px 1px 0px #7fd2f1, inset 0px -1px 0px #156785;
+	top:7px;
+}
