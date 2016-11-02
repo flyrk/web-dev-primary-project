@@ -27,6 +27,8 @@ body {
     top: 20px;
     left: 20px;
     border-radius: 20px;
+    border: 1px solid rgb(112, 106, 106);
+    box-shadow: inset 0px 1px 0px rgb(103, 99, 106);
     background-color: rgb(129, 143, 142);
     text-align: right;
     font-size: 60px;
