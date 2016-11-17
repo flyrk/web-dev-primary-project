@@ -18,7 +18,7 @@ body {
     position: relative;
 }
 
-#view-screen {
+.screen {
     display: block;
     width: 580px;
     height: 200px;
@@ -30,10 +30,38 @@ body {
     border: 1px solid rgb(112, 106, 106);
     box-shadow: inset 0px 1px 0px rgb(103, 99, 106);
     background-color: rgb(129, 143, 142);
+}
+
+#view-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 580px;
+    height: 200px;
+    border-radius: 20px;
+    border: 1px solid rgb(112, 106, 106);
+    box-shadow: inset 0px 1px 0px rgb(103, 99, 106);
+    background-color: rgb(129, 143, 142);
     text-align: right;
     font-size: 60px;
     font-weight: bold;
     font-family: fantasy;
+}
+
+#display-screen {
+    display: block;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    text-align: right;
+    font-family: serif;
+    font-size: 25px;
+    color: rgb(92, 96, 91);
+    background-color: rgb(129, 143, 142);
+    border-radius: 20px;
+    border: 0px;
+    height: 50px;
+    width: 580px;
 }
 
 .buttons {
