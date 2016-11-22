@@ -3,7 +3,7 @@ var lastAns = 0;  // 记录上一次的总答案
 var tempNum = 0;    // 记录每一次操作的数
 var isClickOp = false;  //记录是否按下了加减乘除键
 var isEqual = false;  // 记录是否按了等于键
-var lastOp = "";   // 记录上一次按下的操作符键
+var isDel = false;  // 记录是否按了删除键
 var currentOp = "";  // 记录当前计算需要用的操作符
 
 $(document).ready(function() {
@@ -35,54 +35,96 @@ function clickAct() {
         case "number-8":
         case "number-9":
             if ($('#view-screen').val() == 0 || isClickOp) {  // 如果之前的显示屏上是0或者已经按过操作符键
-                tempNum +=parseInt(this.innerText);
+                tempNum = 0;   // 每次做完操作符运算后都把上一次的数字清零
+                tempNum += parseInt(this.innerText);
+                //console.log("temp: " + tempNum);
                 $('#view-screen').val(this.innerText);  // 刷新显示屏
                 isClickOp = false;
             } else {
                 tempNum = tempNum * 10 + parseInt(this.innerText);
+                //console.log("temp: " + tempNum);
                 $('#view-screen').val($('#view-screen').val() + this.innerText);  // 在之前的数字基础上加数字
-            }
-            if (isEqual) {
-                ans = 0;
-                $('#display-screen').text() = 0;
             }
             displayScreen(this);
             break;
         case "plus":
-            currentOp = lastOp;
-            lastOp = "plus";
+            if (!isClickOp) {
+                if (isEqual) {
+                    ans = lastAns;
+                    isEqual = false;
+                }
+                calculation();
+                $('#view-screen').val(this.innerText);
+                displayScreen(this);
+            }
+            currentOp = this.id;
             isClickOp = true;
-            displayScreen(this);
-            calculation();
             break;
         case "reduce":
-            currentOp = lastOp;
-            lastOp = "reduce";
+            if (!isClickOp) {
+                if (isEqual) {
+                    ans = lastAns;
+                    isEqual = false;
+                }
+                calculation();
+                $('#view-screen').val(this.innerText);
+                displayScreen(this);
+            }
+            currentOp = this.id;
             isClickOp = true;
-            displayScreen(this);
-            calculation();
             break;
         case "multi":
-            currentOp = lastOp;
-            lastOp = "multi";
+            if (!isClickOp) {
+                if (isEqual) {
+                    ans = lastAns;
+                    isEqual = false;
+                }
+                calculation();
+                $('#view-screen').val(this.innerText);
+                displayScreen(this);
+            }
+            currentOp = this.id;
             isClickOp = true;
-            displayScreen(this);
-            calculation();
             break;
         case "divis":
-            currentOp = lastOp;
-            lastOp = "divis";
+            if (!isClickOp) {
+                if (isEqual) {
+                    ans = lastAns;
+                    isEqual = false;
+                }
+                calculation();
+                $('#view-screen').val(this.innerText);
+                displayScreen(this);
+            }
+            currentOp = this.id;
             isClickOp = true;
-            displayScreen(this);
-            calculation();
             break;
         case "equal":
-            currentOp = lastOp;
-            isClickOp = true;
-            isEqual = true;
-            calculation();
-            lastAns = ans;
-            $('#view-screen').val(ans);
+            isClickOp = false;
+            if (!isEqual) {
+                calculation();
+                lastAns = ans;
+                $('#view-screen').val(ans);
+                currentOp = "";   // 每次按完等于键要把记录的操作符清空，以免影响到下一次的操作
+                tempNum = 0;  // 之前运算保存的数也要清零
+                isEqual = true;
+            }
+            break;
+        case "delate":
+            if (!isClickOp) {
+                delateDisplayScreen();
+                delateViewScreen();
+            } else {
+                delateDisplayScreen();
+            }
+            break;
+        case "ac":
+            clearAll();
+            break;
+        case "ans":
+            tempNum = lastAns;
+            $('#view-screen').val(tempNum);
+            $('#display-screen').text(tempNum);
             break;
     }
     // console.log("temp: " + tempNum);
@@ -90,24 +132,56 @@ function clickAct() {
 }
 
 function calculation() {   // 进行计算
+    console.log("currentOp: " + currentOp);
     if (ans == 0) {
         ans += tempNum;
+    } else {
+        switch(currentOp) {
+            case "plus":
+                ans += tempNum;
+                break;
+            case "reduce":
+                ans -= tempNum;
+                break;
+            case "multi":
+                ans *= tempNum;
+                break;
+            case "divis":
+                ans /= tempNum;
+                break;
+            default:
+                break;
+        }
     }
+    //console.log("ans: " + ans);
+    //console.log("temp: " + tempNum);
+}
+
+function delation() {
+    //console.log(tempNum);
     switch(currentOp) {
         case "plus":
-            ans += tempNum;
-            break;
-        case "reduce":
             ans -= tempNum;
             break;
+        case "reduce":
+            ans += tempNum;
+            break;
         case "multi":
-            ans *= tempNum;
+            ans /= tempNum;
             break;
         case "divis":
-            ans /= tempNum;
+            ans *= tempNum;
             break;
         default:
             break;
     }
-    tempNum = 0;   // 每次做完操作符运算后都把上一次的数字清零
+}
+
+function clearAll() {
+    ans = 0;
+    lastAns = 0;
+    tempNum = 0;
+    currentOp = "";
+    $('#display-screen').text(0);
+    $('#view-screen').val(0);
 }
