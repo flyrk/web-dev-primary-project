@@ -3,7 +3,6 @@ var lastAns = 0;  // 记录上一次的总答案
 var tempNum = 0;    // 记录每一次操作的数
 var isClickOp = false;  //记录是否按下了加减乘除键
 var isEqual = false;  // 记录是否按了等于键
-var isDel = false;  // 记录是否按了删除键
 var currentOp = "";  // 记录当前计算需要用的操作符
 
 $(document).ready(function() {
@@ -49,7 +48,7 @@ function clickAct() {
             break;
         case "plus":
             if (!isClickOp) {
-                if (isEqual) {
+                if (isEqual) {   // 如果已经按过等于号，则在之前的答案基础上进行运算
                     ans = lastAns;
                     isEqual = false;
                 }
@@ -107,11 +106,11 @@ function clickAct() {
                 $('#view-screen').val(ans);
                 currentOp = "";   // 每次按完等于键要把记录的操作符清空，以免影响到下一次的操作
                 tempNum = 0;  // 之前运算保存的数也要清零
-                isEqual = true;
+                isEqual = true;  // 每按一次等于号都记录下来
             }
             break;
         case "delate":
-            if (!isClickOp) {
+            if (!isClickOp) {   // 如果删除的是数字(有待改进)
                 delateDisplayScreen();
                 delateViewScreen();
             } else {
@@ -132,7 +131,7 @@ function clickAct() {
 }
 
 function calculation() {   // 进行计算
-    console.log("currentOp: " + currentOp);
+    //console.log("currentOp: " + currentOp);
     if (ans == 0) {
         ans += tempNum;
     } else {
@@ -157,7 +156,7 @@ function calculation() {   // 进行计算
     //console.log("temp: " + tempNum);
 }
 
-function delation() {
+function delation() {  // 进行删除（有待改进）
     //console.log(tempNum);
     switch(currentOp) {
         case "plus":
