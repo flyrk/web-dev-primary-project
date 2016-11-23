@@ -20,6 +20,7 @@ function delateViewScreen() {
 function delateDisplayScreen() {
     var displayScreenText = $('#display-screen').text();
     var indexText = displayScreenText.indexOf($('#view-screen').val());
+    console.log(indexText);
     $('#display-screen').text(displayScreenText.slice(0, indexText) == "" ? 0 : displayScreenText.slice(0, indexText));  // 删除屏幕字符串最后一位
 }
 function changeDecimal(num) {
