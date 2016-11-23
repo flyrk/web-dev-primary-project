@@ -1,6 +1,8 @@
 var ans = 0;   // 记录总答案
 var lastAns = 0;  // 记录上一次的总答案
 var tempNum = 0;    // 记录每一次操作的数
+var hasDot = false;  // 记录是否按下了小数点键
+var dotNum = 1;  // 记录有几位小数（n=dotNum/10）
 var isClickOp = false;  //记录是否按下了加减乘除键
 var isEqual = false;  // 记录是否按了等于键
 var currentOp = "";  // 记录当前计算需要用的操作符
@@ -35,19 +37,36 @@ function clickAct() {
         case "number-9":
             if ($('#view-screen').val() == 0 || isClickOp) {  // 如果之前的显示屏上是0或者已经按过操作符键
                 tempNum = 0;   // 每次做完操作符运算后都把上一次的数字清零
-                tempNum += parseInt(this.innerText);
+                if (hasDot) {
+                    dotNum *= 10;
+                    tempNum = parseInt(this.innerText) / dotNum;
+                } else {
+                    tempNum += parseInt(this.innerText);
+                }
                 //console.log("temp: " + tempNum);
-                $('#view-screen').val(this.innerText);  // 刷新显示屏
+                $('#view-screen').val(tempNum);  // 刷新显示屏
                 isClickOp = false;
             } else {
-                tempNum = tempNum * 10 + parseInt(this.innerText);
+                if (hasDot) {
+                    dotNum *= 10;
+                    tempNum +=  parseInt(this.innerText) / dotNum;
+                } else {
+                    tempNum = tempNum * 10 + parseInt(this.innerText);
+                }
                 //console.log("temp: " + tempNum);
                 $('#view-screen').val($('#view-screen').val() + this.innerText);  // 在之前的数字基础上加数字
             }
             displayScreen(this);
             break;
+        case "dot":
+            hasDot = true;  // 记录按过小数点
+            $('#view-screen').val($('#view-screen').val() + this.innerText);
+            $('#display-screen').text($('#display-screen').text() + this.innerText);
+            break;
         case "plus":
-            if (!isClickOp) {
+            if (!isClickOp) {  // 如果之前没按过操作符
+                hasDot = hasDot ? !hasDot : hasDot;  // 每次按操作符就把之前的小数点记录给去掉
+                dotNum = 1;  // 将小数点位数清零
                 if (isEqual) {   // 如果已经按过等于号，则在之前的答案基础上进行运算
                     ans = lastAns;
                     isEqual = false;
@@ -55,12 +74,14 @@ function clickAct() {
                 calculation();
                 $('#view-screen').val(this.innerText);
                 displayScreen(this);
+                currentOp = this.id;
             }
-            currentOp = this.id;
             isClickOp = true;
             break;
         case "reduce":
             if (!isClickOp) {
+                hasDot = hasDot ? !hasDot : hasDot;
+                dotNum = 1;
                 if (isEqual) {
                     ans = lastAns;
                     isEqual = false;
@@ -68,12 +89,14 @@ function clickAct() {
                 calculation();
                 $('#view-screen').val(this.innerText);
                 displayScreen(this);
+                currentOp = this.id;
             }
-            currentOp = this.id;
             isClickOp = true;
             break;
         case "multi":
             if (!isClickOp) {
+                hasDot = hasDot ? !hasDot : hasDot;
+                dotNum = 1;
                 if (isEqual) {
                     ans = lastAns;
                     isEqual = false;
@@ -81,12 +104,14 @@ function clickAct() {
                 calculation();
                 $('#view-screen').val(this.innerText);
                 displayScreen(this);
+                currentOp = this.id;
             }
-            currentOp = this.id;
             isClickOp = true;
             break;
         case "divis":
             if (!isClickOp) {
+                hasDot = hasDot ? !hasDot : hasDot;
+                dotNum = 1;
                 if (isEqual) {
                     ans = lastAns;
                     isEqual = false;
@@ -94,16 +119,20 @@ function clickAct() {
                 calculation();
                 $('#view-screen').val(this.innerText);
                 displayScreen(this);
+                currentOp = this.id;
             }
-            currentOp = this.id;
             isClickOp = true;
             break;
         case "equal":
             isClickOp = false;
             if (!isEqual) {
+                hasDot = hasDot ? !hasDot : hasDot;
+                dotNum = 1;
                 calculation();
-                lastAns = ans;
+                lastAns = ans;  // 更新上一次的ans
+                ans = changeDecimal(ans);
                 $('#view-screen').val(ans);
+                $('#display-screen').text($('#display-screen').text() + "=" + ans);
                 currentOp = "";   // 每次按完等于键要把记录的操作符清空，以免影响到下一次的操作
                 tempNum = 0;  // 之前运算保存的数也要清零
                 isEqual = true;  // 每按一次等于号都记录下来
@@ -111,9 +140,16 @@ function clickAct() {
             break;
         case "delate":
             if (!isClickOp) {   // 如果删除的是数字(有待改进)
+                if (hasDot) {
+                    dotNum = 1;
+                    hasDot = hasDot ? !hasDot : hasDot;
+                    tempNum = 0;
+                }
                 delateDisplayScreen();
                 delateViewScreen();
-            } else {
+            } else {  // 删除的是操作符
+                isClickOp = false;  // 让下一次操作符能按下
+                currentOp = "";  // 把删除的操作符清空
                 delateDisplayScreen();
             }
             break;
@@ -121,7 +157,7 @@ function clickAct() {
             clearAll();
             break;
         case "ans":
-            tempNum = lastAns;
+            tempNum = changeDecimal(lastAns);
             $('#view-screen').val(tempNum);
             $('#display-screen').text(tempNum);
             break;
@@ -131,7 +167,8 @@ function clickAct() {
 }
 
 function calculation() {   // 进行计算
-    //console.log("currentOp: " + currentOp);
+    console.log("currentOp: " + currentOp);
+    //console.log("tempNum: " + tempNum);
     if (ans == 0) {
         ans += tempNum;
     } else {

@@ -64,6 +64,9 @@ body {
     width: 570px;
 }
 
+#ans {
+    width: 220px;
+}
 .buttons {
     position: absolute;
     color: black;

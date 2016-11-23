@@ -20,5 +20,12 @@ function delateViewScreen() {
 function delateDisplayScreen() {
     var displayScreenText = $('#display-screen').text();
     var indexText = displayScreenText.indexOf($('#view-screen').val());
-    $('#display-screen').text(displayScreenText.slice(0, indexText == 0 ?  indexText + 1 : indexText));  // 删除屏幕字符串最后一位
+    $('#display-screen').text(displayScreenText.slice(0, indexText) == "" ? 0 : displayScreenText.slice(0, indexText));  // 删除屏幕字符串最后一位
+}
+function changeDecimal(num) {
+    var intNum = Math.floor(num);
+    if ((num - intNum !== 0) && ((num - intNum) * 100 - Math.floor((num - intNum) * 100) !== 0)) {  // 如果num的小数点位数大于2（暂时只能想到这么笨方法）
+        num = num.toFixed(2);
+    }
+    return num;
 }
