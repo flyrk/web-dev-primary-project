@@ -47,6 +47,20 @@ spa.shell = (function() {
     copyAnchorMap = function() {
         return $.extend( true, {}, stateMap.anchor_map );
     };
+    // Begin callback method /setChatAnchor/
+    // Example     : setChatAnchor( 'closed' );
+    // Purpose     : Change the chat component of the anchor
+    // Arguments :
+    //      *  position_type - may be 'closed' or 'opened'
+    // Action       :
+    //      Changes the URI anchor parameter 'chat' to the requested
+    //      value if possible.
+    // Returns     :
+    //      *  true  - requested anchor part was updated
+    //      * false - requested anchor part was not updated
+    // Throws     : none
+    //
+    // End callback method /setChatAnchor/
     //----------------- END UTILITY METHODS ------------------------
 
     //----------------- BEGIN DOM METHODS ------------------------
@@ -199,6 +213,9 @@ spa.shell = (function() {
         $.uriAnchor.configModule({
             schema_map: configMap.anchor_schema_map
         });
+        //configure and initialize feature Modules
+        spa.chat.configModule( {} );
+        spa.chat.initModule( jqueryMap.$chat );
         //绑定hashchange事件并立即触发它，这样模块在初始加载时就会处理书签
         $( window )
             .bind( 'hashchange', onHashChange )
