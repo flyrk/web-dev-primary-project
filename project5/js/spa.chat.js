@@ -40,6 +40,23 @@ spa.chat = (function () {
     //----------------- END EVENT HANDLERS ------------------------
 
     //----------------- BEGIN PUBLIC METHODS ------------------------
+    // Begin public method /setSliderPosition/
+    // Example      : spa.chat.setSliderPosition( 'closed' );
+    // Purpose      : Ensure chat slider is in the requested state
+    // Arguments  :
+    //      *  position_type - enum( 'closed', 'opened' or 'hidden' )
+    //      *  callback - optional callback at end of animation.
+    //          (callback receives slider DOM element as argument)
+    // Actions      :
+    //      Leaves slider in current state if it matches requested,
+    //      otherwise animate to requested state.
+    // Returns     :
+    //      *  true  - requested state achieved
+    //      *  false - requested state not achieved
+    // Throw      : none
+    //
+    // End public method /setSliderPosition/
+
     // Begin public method /configModule/
     // Example   : spa.chat.configModule( { slider_open_em: 18 } );
     // Purpose    : Configure the module prior to initialization
@@ -70,7 +87,20 @@ spa.chat = (function () {
         return true;
     };
     //End public method /configModule/
+
     //Begin public method /initModule/
+    // Example     : spa.chat.initModule( $( '#div_id' ) );
+    // Purpose     : Directs chat to offer its capability to the user
+    // Arguments :
+    //      *  $append_target (example: $( '#div_id' )).
+    //          A jQuery collection that should represent a single DOM container
+    // Actions    :
+    //      Appends the chat slider to the provided container and fills it
+    //      with HTML content. It then initializes elements, events, and
+    //      handlers to provide the user with a chat-room inerface
+    // Returns   : true on success, false on failure
+    // Throws   : none
+    //
     initModule = function($container) {
         stateMap.$container = $container;
         $container.html(configMap.main_html);
