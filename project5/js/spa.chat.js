@@ -5,35 +5,100 @@
 /*jslint   browser: true, continue: true, devel: true, indent: 2, maxerr: 50, newcap: true,
     nomen: true, plusplus: true, regexp: true, sloppy: true, vars: false, white: true
 */
-/*global jQuery, $, spa */
+/*global jQuery, $, spa, getComputedStyle */
 spa.chat = (function () {
     //----------------- BEGIN MODULE SCOPE VARIABLES ------------------------
     var configMap = {                       // 存放静态配置值
         main_html: String()
-            +  '<div style="padding: 1em; color: #fff;">'+
-                     'Say Hello to chat!'+
+            +  '<div class="spa-chat">'+
+                     '<div class="spa-chat-head">'+
+                        '<div class="spa-chat-head-toggle">+</div>'+
+                        '<div class="spa-chat-head-title">Chating room</div>'+
+                    '</div>'+
+                    '<div class="spa-chat-closer">x</div>'+
+                    '<div class="spa-chat-sizer">'+
+                        '<div class="spa-chat-msgs"></div>'+
+                        '<div class="spa-chat-box">'+
+                            '<input type="text">'+
+                            '<div>send</div>'+
+                        '</div>'+
+                    '</div>'+
                 '</div>',
-        settable_map: {}
+        settable_map: {
+            slider_open_time: true,
+            slider_close_time: true,
+            slider_opened_em: true,
+            slider_closed_em: true,
+            slider_opened_title: true,
+            slider_closed_title: true,
+
+            chat_model: true,
+            people_model: true,
+            set_chat_anchor: true
+        },
+        slider_open_time: 250,
+        slider_close_time: 250,
+        slider_opened_em: 16,
+        slider_closed_em: 2,
+        slider_opened_title: 'Click to close',
+        slider_closed_title: 'Click to open',
+
+        chat_model: null,
+        people_model: null,
+        set_chat_anchor: null
     },
     stateMap = {
-        $container: null
+        $append_target: null,
+        position_type: 'closed',
+        px_per_em: 0,
+        slider_hidden_px: 0,
+        slider_opened_px: 0,
+        slider_closed_px: 0
     },  // 存放共享动态信息
     jqueryMap = {},                          // 缓存jquery集合
-    setJqueryMap, configModule, initModule;         // 之后需要赋值的变量
+    setJqueryMap, getEmSize, setPxSizes, setSliderPosition, onClickToggle,
+    configModule, initModule;         // 之后需要赋值的变量
     //----------------- END MODULE SCOPE VARIABLES ------------------------
 
     //----------------- BEGIN UTILITY METHODS ------------------------
+    getEmSize = function ( elem ) {
+        return Number( getComputedStyle( elem, ' ' ).fontSize.match(/\d*\.?\d*/)[0] );
+    };
     //----------------- END UTILITY METHODS ------------------------
 
     //----------------- BEGIN DOM METHODS ------------------------
     //Begin DOM methods /setJqueryMap/
     setJqueryMap = function() {
-        var $container = stateMap.$container;
+        var
+            $append_target = stateMap.$append_target,
+            $slider = $append_target.find( '.spa-chat' );
+
         jqueryMap = {
-            $container: $container
+            $slider: $slider,
+            $head: $append_target.find( '.spa-chat-head' ),
+            $title: $append_target.find( '.spa-chat-head-title' ),
+            $toggle: $append_target.find( '.spa-chat-head-toggle' ),
+            $sizer: $append_target.find( '.spa-chat-sizer' ),
+            $msgs: $append_target.find( '.spa-chat-msgs' ),
+            $box: $append_target.find( '.spa-chat-box' ),
+            $input: $append_target.find( '.spa-chat-box input[type=text]' )
         };
     };
     //End DOM methods /setJqueryMap/
+
+    //Begin DOM methods /setPxSizes/
+    setPxSizes = function () {
+        var px_per_em, opened_height_em;
+        px_per_em = getEmSize( jqueryMap.$slider.get(0) );
+        opened_height_em = configMap.slider_open_em;
+        stateMap.px_per_em = px_per_em;
+        stateMap.slider_opened_px = opened_height_em * px_per_em;
+        stateMap.slider_closed_px = configMap.slider_closed_em * px_per_em;
+        jqueryMap.$slider.css({
+            height: ( opened_height_em - 2 ) * px_per_em
+        });
+    };
+    //End DOM methods /setPxSizes/
     //----------------- END DOM METHODS ------------------------
 
     //----------------- BEGIN EVENT HANDLERS ------------------------
@@ -55,6 +120,12 @@ spa.chat = (function () {
     //      *  false - requested state not achieved
     // Throw      : none
     //
+    setSliderPosition = function ( position_type, callback ) {
+        var height_px, animate_time, slider_title, toggle_text;
+        if ( stateMap.position_type === position_type ) {
+            return true;
+        }
+    };
     // End public method /setSliderPosition/
 
     // Begin public method /configModule/
