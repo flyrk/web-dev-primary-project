@@ -102,6 +102,15 @@ spa.chat = (function () {
     //----------------- END DOM METHODS ------------------------
 
     //----------------- BEGIN EVENT HANDLERS ------------------------
+    onClickToggle = function ( event ) {
+        var set_chat_anchor = configMap.set_chat_anchor;
+        if ( stateMap.position_type === 'opened' ) {
+            set_chat_anchor( 'closed' );
+        } else if ( stateMap.position_type === 'closed' ) {
+            set_chat_anchor( 'opened' );
+        }
+        return false;
+    };
     //----------------- END EVENT HANDLERS ------------------------
 
     //----------------- BEGIN PUBLIC METHODS ------------------------
@@ -125,6 +134,41 @@ spa.chat = (function () {
         if ( stateMap.position_type === position_type ) {
             return true;
         }
+        // prepare animate parameters
+        switch ( position_type ) {
+            case 'opened':
+                height_px = stateMap.slider_opened_px;
+                animate_time = configMap.slider_open_time;
+                slider_title = configMap.slider_opened_title;
+                toggle_text = '=';
+                break;
+            case 'hidden':
+                height_px = 0;
+                animate_time = configMap.slider_open_time;
+                slider_title = '';
+                toggle_text = '+';
+                break;
+            case 'closed':
+                height_px = stateMap.slider_closed_px;
+                animate_time = configMap.slider_close_time;
+                slider_title = configMap.slider_closed_title;
+                toggle_text = '+';
+                break;
+            default: return false;
+        }
+        // animate slider position change
+        stateMap.position_type = '';
+        jqueryMap.$slider.animate(
+            { height: height_px },
+            animate_time,
+            function () {
+                jqueryMap.$toggle.prop( 'title', slider_title );
+                jqueryMap.$toggle.text( toggle_text );
+                stateMap.position_type = position_type;
+                if ( callback ) { callback( jqueryMap.$slider ) }
+            }
+        );
+        return true;
     };
     // End public method /setSliderPosition/
 
@@ -172,14 +216,20 @@ spa.chat = (function () {
     // Returns   : true on success, false on failure
     // Throws   : none
     //
-    initModule = function($container) {
-        stateMap.$container = $container;
-        $container.html(configMap.main_html);
+    initModule = function( $append_target ) {
+        $append_target.append( configMap.main_html );
+        stateMap.$append_target = $append_target;
         setJqueryMap();
+        setPxSizes();
+        // initialize chat slider to default title and state
+        jqueryMap.$toggle.prop( 'title', configMap.slider_closed_title );
+        jqueryMap.$head.click( onClickToggle );
+        stateMap.position_type = 'closed';
         return true;
     };
     //End public method /initModule/
     return {
+        setSliderPosition: setSliderPosition,
         configModule: configModule,
         initModule: initModule
     };
