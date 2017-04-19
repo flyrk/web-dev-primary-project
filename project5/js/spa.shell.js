@@ -29,14 +29,17 @@ spa.shell = (function() {
         chat_extend_time: 1000,
         chat_retract_time: 300,
         chat_extend_title: 'Click to extend',
-        chat_retract_title: 'Click to retract'
+        chat_retract_title: 'Click to retract',
+        resize_interval: 200
     },
     stateMap = {
+        $container: undefined,
+        resize_idto: undefined,
         anchor_map: {}
     },  // 存放共享动态信息
     jqueryMap = {},                          // 缓存jquery集合
     setJqueryMap, copyAnchorMap,
-    changeAnchorPart, onHashChange, setChatAnchor, initModule;         // 之后需要赋值的变量
+    changeAnchorPart, onHashChange, setChatAnchor, onResize, initModule;         // 之后需要赋值的变量
     //----------------- END MODULE SCOPE VARIABLES ------------------------
 
     //----------------- BEGIN UTILITY METHODS ------------------------
@@ -189,6 +192,19 @@ spa.shell = (function() {
         return false;
     };
     // End event handler /onHashChange/
+    // Begin event handler /onResize/
+    onResize = function() {
+        if( stateMap.resize_idto ) { return true; }
+        spa.chat.handleResize();
+        stateMap.resize_idto = setTimeout(
+            function() {
+                stateMap.resize_idto = undefined;
+            },
+            configMap.resize_interval
+        );
+        return true;
+    };
+    // End event handler /onResize/
     //----------------- END EVENT HANDLERS ------------------------
 
     //-------------------- BEGIN CALLBACK -------------------------------
@@ -243,6 +259,7 @@ spa.shell = (function() {
         spa.chat.initModule( jqueryMap.$container );
         //绑定hashchange事件并立即触发它，这样模块在初始加载时就会处理书签
         $( window )
+            .bind( 'resize', onResize )
             .bind( 'hashchange', onHashChange )
             .trigger( 'hashchange' );
     };

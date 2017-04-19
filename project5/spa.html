@@ -1,6 +1,7 @@
 <!doctype html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SPA Example</title>
         <!--Third-party stylesheets-->
 
@@ -8,6 +9,10 @@
         <link rel="stylesheet" href="css/spa.css">
         <link rel="stylesheet" href="css/spa.shell.css">
         <link rel="stylesheet" href="css/spa.chat.css">
+
+    </head>
+    <body>
+        <div id="spa"></div>
 
         <!-- Third-party javascript -->
         <script src="js/jq/jquery-3.1.1.js"></script>
@@ -21,8 +26,5 @@
         <script>
             $(function() { spa.initModule( $('#spa') ); });
         </script>
-    </head>
-    <body>
-        <div id="spa"></div>
     </body>
 </html>
