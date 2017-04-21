@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,CAAC;EACG,MAAM,EAAE,CAAC;EACT,UAAU,EAAE,UAAU",
+"sources": ["spa.avtr.sass"],
+"names": [],
+"file": "spa.avtr.css"
+}

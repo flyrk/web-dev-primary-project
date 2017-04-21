@@ -38,11 +38,11 @@ spa.chat = (function () {
         },
         slider_open_time: 250,
         slider_close_time: 250,
-        slider_opened_em: 18,
+        slider_opened_em: 24,
         slider_closed_em: 2,
         slider_opened_title: 'Click to close',
         slider_closed_title: 'Click to open',
-        window_height_min_em: 20,
+        window_height_min_em: 27,
 
         chat_model: null,
         people_model: null,
